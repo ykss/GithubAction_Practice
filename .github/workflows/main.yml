@@ -1,20 +1,32 @@
 name: crawlingPractice
  
-on: 
-  schedule: 
-    - cron: "*/10 * * * *"
+on: [push]
+#  schedule: 
+#    - cron: "*/10 * * * *"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: 1. 파일 목록 출력
-      run: ls -al
-    - name: 2. pip 업그레이드
+      with:
+        # 개인 토큰을 사용할 것인지 말 것인지
+        persist-credentials: false 
+    - name: 1. pip 업그레이드
       run: python -m pip install --upgrade pip
-    - name: 3. 필요한 패키지 인스톨
+    - name: 2. 필요한 패키지 인스톨
       run: pip install -r requirements.txt
-    - name: 4. 테스트 코드 실행
+    - name: 3. 크롤링 코드 실행
       run: python test.py
-      
+    - name: 4. 커밋
+      run: |
+        git config --local user.email "yukyeongsang@gmail.com"
+        git config --local user.name "ykss"
+        git add .
+        git commit -m "Run crawler and update current data"
+    - name: 5. 푸시
+      uses: ad-m/github-push-action@master
+      with:
+        # branch: "master"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
