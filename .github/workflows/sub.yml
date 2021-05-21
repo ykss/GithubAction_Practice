@@ -7,13 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: 1. 변수출력
+    - name: 1. 환경 변수 출력
       env:
-        NAME: 'kyeongsang.yu'
-        AGE: 29
-        HUMAN: true
-        ID: ${{ github.actor }} 
-      run: | 
-        echo "내 이름은 $NAME 입니다."
-        echo "내 이름은 $NAME, 내 아이디는 $ID 입니다."
-        echo "내 이름은 $NAME, 내 아이디는 $ID 입니다. 제 나이는 $AGE이고, 휴먼 : $HUMAN 입니다."
+        KEY: ${{ secrets.SECRET_KEY }} 
+      run: echo "$KEY"
